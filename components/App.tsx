@@ -9,8 +9,22 @@ import GalleryView from './GalleryView';
 import MemoryModal from '../MemoryModal';
 import MemoryForm from './MemoryForm';
 
+const STORAGE_KEY = 'CHRONOS_ARCHIVE_V1';
+
 const App: React.FC = () => {
-  const [memories, setMemories] = useState<Memory[]>(INITIAL_MEMORIES);
+  const [memories, setMemories] = useState<Memory[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Failed to load archive", e);
+        return INITIAL_MEMORIES;
+      }
+    }
+    return INITIAL_MEMORIES;
+  });
+
   const [viewMode, setViewMode] = useState<ViewMode>('globe');
   const [selectedMemory, setSelectedMemory] = useState<Memory | null>(null);
   const [focusedMemory, setFocusedMemory] = useState<Memory | null>(null); 
@@ -20,10 +34,15 @@ const App: React.FC = () => {
   const [playbackIndex, setPlaybackIndex] = useState<number>(-1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
-  const [lang, setLang] = useState<'en' | 'zh'>('en');
+  const [lang, setLang] = useState<'en' | 'zh'>('zh'); 
   
   const t = TRANSLATIONS[lang];
   const globeRef = useRef<GlobeRef>(null);
+  const playbackActiveRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memories));
+  }, [memories]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -33,6 +52,8 @@ const App: React.FC = () => {
           setEditingMemory(null);
         } else if (selectedMemory) {
           setSelectedMemory(null);
+        } else if (isPlaying) {
+          handleStopPlayback();
         } else if (focusedMemory || showIntro) {
           handleResetView();
           setShowIntro(false);
@@ -41,7 +62,7 @@ const App: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isAdding, selectedMemory, focusedMemory, showIntro]);
+  }, [isAdding, selectedMemory, focusedMemory, showIntro, isPlaying]);
 
   const sortedMemories = useMemo(() => 
     [...memories].sort((a, b) => {
@@ -80,10 +101,12 @@ const App: React.FC = () => {
   };
 
   const handleDeleteMemory = (id: string) => {
-    setSelectedMemory(null);
-    setFocusedMemory(null);
-    setMemories(prev => prev.filter(m => m.id !== id));
-    if (viewMode === 'globe' && globeRef.current) globeRef.current.resetView();
+    if (window.confirm(lang === 'zh' ? '确定要永久删除这段记忆吗？' : 'Delete this memory permanently?')) {
+      setSelectedMemory(null);
+      setFocusedMemory(null);
+      setMemories(prev => prev.filter(m => m.id !== id));
+      if (viewMode === 'globe' && globeRef.current) globeRef.current.resetView();
+    }
   };
 
   const handleEditMemory = (memory: Memory) => {
@@ -116,9 +139,18 @@ const App: React.FC = () => {
     if (viewMode === 'globe' && globeRef.current) await globeRef.current.resetView();
   };
 
+  const handleStopPlayback = () => {
+    playbackActiveRef.current = false;
+    setIsPlaying(false);
+    setPlaybackIndex(-1);
+    setFocusedMemory(null);
+    if (globeRef.current) globeRef.current.resetView();
+  };
+
   const startPlayback = async () => {
     if (isPlaying) return;
     setIsPlaying(true);
+    playbackActiveRef.current = true;
     setViewMode('globe');
     setShowIntro(false);
     setSelectedMemory(null);
@@ -129,19 +161,32 @@ const App: React.FC = () => {
     await new Promise(r => setTimeout(r, 600));
 
     for (let i = 0; i < sortedMemories.length; i++) {
+      if (!playbackActiveRef.current) break;
+      
       const memory = sortedMemories[i];
       setFocusedMemory(null);
       setPlaybackIndex(i);
+      
       if (globeRef.current) await globeRef.current.zoomTo(memory.location.lat, memory.location.lng);
+      
+      if (!playbackActiveRef.current) break;
       setFocusedMemory(memory);
-      await new Promise(r => setTimeout(r, 4000)); 
+      
+      // Wait for 4 seconds, but check periodically if playback was cancelled
+      for (let j = 0; j < 40; j++) {
+        if (!playbackActiveRef.current) break;
+        await new Promise(r => setTimeout(r, 100));
+      }
     }
     
-    setFocusedMemory(null);
-    setIsPlaying(false);
-    setPlaybackIndex(-1);
-    await new Promise(r => setTimeout(r, 500));
-    setViewMode('gallery'); 
+    if (playbackActiveRef.current) {
+      setFocusedMemory(null);
+      setIsPlaying(false);
+      playbackActiveRef.current = false;
+      setPlaybackIndex(-1);
+      await new Promise(r => setTimeout(r, 500));
+      setViewMode('gallery'); 
+    }
   };
 
   return (
@@ -202,20 +247,29 @@ const App: React.FC = () => {
       </nav>
 
       {isPlaying && (
-        <div className="fixed top-6 md:top-10 left-1/2 -translate-x-1/2 z-50 px-6 md:px-10 py-3 md:py-4 glass-panel flex items-center gap-4 md:gap-8 animate-in slide-in-from-top-10 duration-700">
-          <div className="flex items-center gap-2 md:gap-4">
+        <div className="fixed top-6 md:top-10 left-1/2 -translate-x-1/2 z-50 px-4 md:px-10 py-3 md:py-4 glass-panel flex items-center gap-4 md:gap-8 animate-in slide-in-from-top-10 duration-700 min-w-[300px] md:min-w-[500px] justify-between">
+          <div className="flex items-center gap-2 md:gap-4 flex-1">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-pink-500 animate-[ping_1.5s_infinite] rounded-full"></div>
-            <span className="text-[8px] md:text-[10px] font-cyber tracking-[0.2em] md:tracking-[0.4em] text-pink-500">{t.decoding}</span>
+            <span className="text-[8px] md:text-[10px] font-cyber tracking-[0.2em] md:tracking-[0.4em] text-pink-500 whitespace-nowrap">{t.decoding}</span>
+            <div className="hidden sm:block flex-1 h-[1px] bg-cyan-500/10 relative overflow-hidden mx-4">
+              <div 
+                className="h-full bg-cyan-400 shadow-[0_0_10px_cyan] transition-all duration-1000" 
+                style={{ width: `${((playbackIndex + 1) / sortedMemories.length) * 100}%` }}
+              ></div>
+            </div>
+            <span className="text-[10px] md:text-12px font-cyber text-cyan-400 ml-auto whitespace-nowrap">
+              {String(playbackIndex + 1).padStart(2, '0')} / {String(sortedMemories.length).padStart(2, '0')}
+            </span>
           </div>
-          <div className="w-32 md:w-60 h-[1px] bg-cyan-500/10 relative overflow-hidden">
-            <div 
-              className="h-full bg-cyan-400 shadow-[0_0_10px_cyan]" 
-              style={{ width: `${((playbackIndex + 1) / sortedMemories.length) * 100}%` }}
-            ></div>
-          </div>
-          <span className="text-[10px] md:text-12px font-cyber text-cyan-400">
-            {String(playbackIndex + 1).padStart(2, '0')} / {String(sortedMemories.length).padStart(2, '0')}
-          </span>
+          
+          <button 
+            onClick={handleStopPlayback}
+            className="ml-4 md:ml-8 px-3 md:px-6 py-1.5 md:py-2 bg-pink-500/20 hover:bg-pink-500/40 text-pink-500 font-cyber text-[8px] md:text-[10px] tracking-widest uppercase transition-all border border-pink-500/30 group flex items-center gap-2"
+            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 70%, 85% 100%, 0 100%)' }}
+          >
+            <i className="fa-solid fa-circle-xmark group-hover:scale-125 transition-transform"></i>
+            <span>{lang === 'zh' ? '退出回放' : 'EXIT ARCHIVE'}</span>
+          </button>
         </div>
       )}
 
@@ -322,7 +376,7 @@ const App: React.FC = () => {
           onSave={handleSaveMemory} 
           onCancel={() => { setIsAdding(false); setEditingMemory(null); }} 
         />
-      )}p
+      )}
     </div>
   );
 };
