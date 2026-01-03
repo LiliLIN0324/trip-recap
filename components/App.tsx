@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Memory, ViewMode } from './types';
-import { INITIAL_MEMORIES, ACTIVITY_COLORS, TRANSLATIONS } from './constants';
-import GlobeView, { GlobeRef } from './components/GlobeView';
-import TimelineView from './components/TimelineView';
-import StatsView from './components/StatsView';
-import GalleryView from './components/GalleryView';
-import MemoryModal from './components/MemoryModal';
-import MemoryForm from './components/MemoryForm';
+import { Memory, ViewMode } from '../types';
+import { INITIAL_MEMORIES, ACTIVITY_COLORS, TRANSLATIONS } from '../constants';
+import GlobeView, { GlobeRef } from '../GlobeView';
+import TimelineView from './TimelineView';
+import StatsView from './StatsView';
+import GalleryView from './GalleryView';
+import MemoryModal from '../MemoryModal';
+import MemoryForm from './MemoryForm';
 
 const App: React.FC = () => {
   const [memories, setMemories] = useState<Memory[]>(INITIAL_MEMORIES);
@@ -322,7 +322,7 @@ const App: React.FC = () => {
           onSave={handleSaveMemory} 
           onCancel={() => { setIsAdding(false); setEditingMemory(null); }} 
         />
-      )}
+      )}p
     </div>
   );
 };

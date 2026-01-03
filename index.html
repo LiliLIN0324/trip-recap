@@ -25,14 +25,13 @@
       background-color: var(--cyber-bg);
       color: #ffffff;
       overflow: hidden;
-      touch-action: manipulation; /* Improves touch responsiveness */
+      touch-action: manipulation;
     }
 
     h1, h2, h3, .font-cyber {
       font-family: 'Orbitron', sans-serif;
     }
 
-    /* 粉蓝迷彩背景 */
     .cyber-camo {
       background: 
         radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.05) 0%, transparent 40%),
@@ -59,7 +58,6 @@
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
     }
 
-    /* 扫描线效果 */
     .scanlines::before {
       content: " ";
       display: block;
@@ -115,12 +113,14 @@
 <body class="cyber-camo scanlines">
   <div class="grain"></div>
   <div id="root"></div>
+
+  <!-- Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
           .then(reg => console.log('Service Worker registered.', reg))
-          .catch(err => console.log('Service Worker registration failed.', err));
+          .catch(err => console.error('Service Worker registration failed.', err));
       });
     }
   </script>
@@ -149,7 +149,7 @@
 
   <!-- 嵌入 Service Worker 文件 -->
   <script type="text/file" data-filename="sw.js">
-  const CACHE_NAME = 'chrono-cyber-cache-v2';
+  const CACHE_NAME = 'chrono-cyber-cache-v3';
   const ASSETS_TO_CACHE = [
     './index.html',
     'https://cdn.tailwindcss.com',
