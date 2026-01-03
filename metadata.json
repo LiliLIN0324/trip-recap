@@ -1,0 +1,8 @@
+{
+  "name": "Trip Recap: Your Year in Motion",
+  "description": "A visually stunning annual review app that visualizes your life events on an interactive globe, utilizing Gemini AI to analyze memories and categorize activities.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}

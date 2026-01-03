@@ -1,0 +1,19 @@
+
+{
+  "name": "Trip Recap - Cyber Memory Archive",
+  "short_name": "Trip Recap",
+  "description": "A high-performance cyberpunk-themed digital memory archive and globe visualizer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#00ffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2092/2092215.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
