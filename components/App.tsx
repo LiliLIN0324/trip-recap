@@ -8,6 +8,7 @@ import StatsView from './StatsView';
 import GalleryView from './GalleryView';
 import MemoryModal from '../MemoryModal';
 import MemoryForm from './MemoryForm';
+import SummaryScreen from './SummaryScreen';
 
 const STORAGE_KEY = 'CHRONOS_ARCHIVE_V1';
 
@@ -34,6 +35,7 @@ const App: React.FC = () => {
   const [playbackIndex, setPlaybackIndex] = useState<number>(-1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [showSummary, setShowSummary] = useState(false);
   const [lang, setLang] = useState<'en' | 'zh'>('zh'); 
   
   const t = TRANSLATIONS[lang];
@@ -54,15 +56,16 @@ const App: React.FC = () => {
           setSelectedMemory(null);
         } else if (isPlaying) {
           handleStopPlayback();
-        } else if (focusedMemory || showIntro) {
+        } else if (focusedMemory || showIntro || showSummary) {
           handleResetView();
           setShowIntro(false);
+          setShowSummary(false);
         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isAdding, selectedMemory, focusedMemory, showIntro, isPlaying]);
+  }, [isAdding, selectedMemory, focusedMemory, showIntro, isPlaying, showSummary]);
 
   const sortedMemories = useMemo(() => 
     [...memories].sort((a, b) => {
@@ -101,11 +104,11 @@ const App: React.FC = () => {
   };
 
   const handleDeleteMemory = (id: string) => {
-    if (window.confirm(lang === 'zh' ? '确定要永久删除这段记忆吗？' : 'Delete this memory permanently?')) {
-      setSelectedMemory(null);
-      setFocusedMemory(null);
-      setMemories(prev => prev.filter(m => m.id !== id));
-      if (viewMode === 'globe' && globeRef.current) globeRef.current.resetView();
+    setSelectedMemory(null);
+    setFocusedMemory(null);
+    setMemories(prev => prev.filter(m => m.id !== id));
+    if (viewMode === 'globe' && globeRef.current) {
+      globeRef.current.resetView();
     }
   };
 
@@ -148,11 +151,12 @@ const App: React.FC = () => {
   };
 
   const startPlayback = async () => {
-    if (isPlaying) return;
+    if (isPlaying || memories.length === 0) return;
     setIsPlaying(true);
     playbackActiveRef.current = true;
     setViewMode('globe');
     setShowIntro(false);
+    setShowSummary(false);
     setSelectedMemory(null);
     setFocusedMemory(null);
     setPlaybackIndex(-1);
@@ -172,8 +176,7 @@ const App: React.FC = () => {
       if (!playbackActiveRef.current) break;
       setFocusedMemory(memory);
       
-      // Wait for 4 seconds, but check periodically if playback was cancelled
-      for (let j = 0; j < 40; j++) {
+      for (let j = 0; j < 35; j++) {
         if (!playbackActiveRef.current) break;
         await new Promise(r => setTimeout(r, 100));
       }
@@ -185,7 +188,7 @@ const App: React.FC = () => {
       playbackActiveRef.current = false;
       setPlaybackIndex(-1);
       await new Promise(r => setTimeout(r, 500));
-      setViewMode('gallery'); 
+      setShowSummary(true);
     }
   };
 
@@ -202,6 +205,7 @@ const App: React.FC = () => {
       ></div>
 
       <nav className={`z-40 flex items-center justify-between px-4 md:px-10 py-3 md:py-5 bg-black/40 backdrop-blur-xl border-b border-cyan-500/20 shrink-0 transition-all duration-700 ${isPlaying ? 'translate-y-[-100%] opacity-0' : 'translate-y-0 opacity-100'}`}>
+        {/* LOGO AREA - RESTORED ORIGINAL INTERACTION */}
         <div className="flex items-center gap-3 md:gap-5 cursor-pointer group" onClick={() => setShowIntro(true)}>
           <div className="relative w-8 h-8 md:w-11 md:h-11">
              <div className="absolute inset-0 bg-cyan-400 opacity-20 blur-md group-hover:opacity-40 transition-opacity"></div>
@@ -211,7 +215,7 @@ const App: React.FC = () => {
              </div>
           </div>
           <div className="block">
-            <h1 className="font-black text-sm md:text-2xl tracking-[0.05em] md:tracking-[0.1em] uppercase italic leading-none neo-text-gradient font-cyber whitespace-nowrap">TRIP RECAP</h1>
+            <h1 className="font-black text-sm md:text-2xl tracking-[0.05em] md:tracking-[0.1em] uppercase italic leading-none neo-text-gradient font-cyber whitespace-nowrap group-hover:glitch-hover transition-all">TRIP RECAP</h1>
           </div>
         </div>
 
@@ -297,6 +301,29 @@ const App: React.FC = () => {
         </div>
       </main>
 
+      {/* 聚焦时的 HUD 操作提示 */}
+      {focusedMemory && viewMode === 'globe' && !selectedMemory && (
+        <div className="absolute bottom-28 md:bottom-32 left-1/2 -translate-x-1/2 z-30 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center">
+               <div className="w-px h-12 bg-gradient-to-t from-cyan-400 to-transparent mb-2"></div>
+               <p className="text-[10px] font-cyber text-cyan-400 tracking-[0.5em] uppercase mb-4 animate-pulse">MEMORY_LOCKED</p>
+            </div>
+            <button 
+              onClick={() => handleExpandMemory(focusedMemory)}
+              className="px-10 md:px-16 py-4 md:py-5 bg-cyan-400 text-black font-cyber font-black tracking-[0.3em] uppercase shadow-[0_0_50px_rgba(0,255,255,0.4)] transition-all hover:scale-110 active:scale-95 group relative overflow-hidden"
+              style={{ clipPath: 'polygon(15% 0, 100% 0, 85% 100%, 0 100%)' }}
+            >
+              <span className="relative z-10 flex items-center gap-3">
+                <i className="fa-solid fa-crosshairs group-hover:rotate-90 transition-transform"></i>
+                {lang === 'zh' ? '展开档案库' : 'OPEN ARCHIVE'}
+              </span>
+              <div className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 opacity-20"></div>
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className={`fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 md:gap-4 p-2 md:p-4 glass-panel border border-cyan-500/20 transition-all duration-700 ${isPlaying ? 'translate-y-[200%] opacity-0' : 'translate-y-0 opacity-100'}`}>
         {[
           { id: 'globe', icon: 'fa-earth-asia', label: t.map },
@@ -330,51 +357,57 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505] animate-in fade-in duration-1000 p-6">
            <div className="max-w-2xl w-full p-6 md:p-12 space-y-12 md:space-y-20 text-center">
               <div className="relative inline-block">
-                {/* Orbital Decorators */}
                 <div className="absolute -inset-20 border border-cyan-400/10 rounded-full animate-[spin_10s_linear_infinite]"></div>
                 <div className="absolute -inset-12 border border-pink-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-                
-                {/* Main Logo Nexus */}
-                <div className="relative p-12 md:p-20 bg-black/40 backdrop-blur-3xl border border-cyan-500/30 shadow-[0_0_80px_rgba(0,255,255,0.15)] group overflow-visible" style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}>
-                   <div className="absolute inset-0 neo-gradient opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                   <div className="relative z-10 flex items-center justify-center">
-                     <i className="fa-solid fa-route text-6xl md:text-9xl text-cyan-400 group-hover:text-pink-500 transition-colors duration-1000 animate-pulse"></i>
-                   </div>
+                <div className="relative z-10 w-32 h-32 md:w-48 md:h-48 border-2 border-cyan-400 flex items-center justify-center bg-black rotate-45 mx-auto">
+                   <i className="fa-solid fa-dna text-4xl md:text-6xl text-cyan-400 -rotate-45"></i>
                 </div>
               </div>
-              <div>
-                <h2 className="text-4xl md:text-7xl font-black italic tracking-[-0.05em] mb-4 md:mb-8 neo-text-gradient font-cyber uppercase leading-tight whitespace-pre-wrap">{t.connectLife}</h2>
-                <p className="text-cyan-500/40 uppercase tracking-[0.5em] md:tracking-[1em] text-[7px] md:text-[9px] font-black">{t.protocol}</p>
+
+              <div className="space-y-6">
+                <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase neo-text-gradient font-cyber whitespace-pre-line">
+                  {t.connectLife}
+                </h2>
+                <p className="text-zinc-500 text-xs md:text-sm tracking-[0.4em] font-bold uppercase">
+                  {t.protocol}
+                </p>
               </div>
-              <div className="flex flex-col gap-4 md:gap-6 max-w-sm mx-auto">
-                <button 
-                  onClick={() => setShowIntro(false)} 
-                  className="w-full py-4 md:py-6 bg-cyan-400 text-black font-cyber font-black tracking-[0.4em] text-[9px] md:text-[11px] shadow-[0_0_30px_rgba(0,255,255,0.3)] transition-all active:scale-95 uppercase"
-                  style={{ clipPath: 'polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%)' }}
-                >
-                  {t.accessCore}
-                </button>
-              </div>
+
+              <button 
+                onClick={() => setShowIntro(false)}
+                className="px-12 md:px-20 py-4 md:py-6 bg-cyan-400 text-black font-cyber font-black tracking-[0.5em] uppercase hover:bg-white transition-all shadow-[0_0_50px_rgba(0,255,255,0.3)]"
+                style={{ clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0 100%)' }}
+              >
+                {t.accessCore}
+              </button>
            </div>
         </div>
+      )}
+
+      {showSummary && (
+        <SummaryScreen 
+          memories={memories} 
+          lang={lang} 
+          onClose={() => setShowSummary(false)} 
+        />
+      )}
+
+      {isAdding && (
+        <MemoryForm 
+          lang={lang}
+          initialData={editingMemory}
+          onSave={handleSaveMemory}
+          onCancel={() => { setIsAdding(false); setEditingMemory(null); }}
+        />
       )}
 
       {selectedMemory && (
         <MemoryModal 
           lang={lang}
-          memory={selectedMemory} 
-          onClose={() => setSelectedMemory(null)} 
-          onDelete={handleDeleteMemory} 
+          memory={selectedMemory}
+          onClose={() => setSelectedMemory(null)}
+          onDelete={handleDeleteMemory}
           onEdit={handleEditMemory}
-        />
-      )}
-      
-      {isAdding && (
-        <MemoryForm 
-          lang={lang}
-          initialData={editingMemory}
-          onSave={handleSaveMemory} 
-          onCancel={() => { setIsAdding(false); setEditingMemory(null); }} 
         />
       )}
     </div>
