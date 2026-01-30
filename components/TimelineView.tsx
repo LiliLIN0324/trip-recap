@@ -38,10 +38,14 @@ const TimelineView: React.FC<TimelineViewProps> = ({ memories, onSelectMemory, l
                 className="absolute -left-[54px] sm:-left-[77px] top-0 w-3 h-3 rounded-full ring-4 ring-black"
                 style={{ backgroundColor: ACTIVITY_COLORS[memory.activityType] }}
               >
+<<<<<<< HEAD
                 <div 
                   className="absolute inset-0 rounded-full animate-ping opacity-30"
                   style={{ backgroundColor: ACTIVITY_COLORS[memory.activityType] }}
                 ></div>
+=======
+                {/* Removed animate-ping opacity-30 */}
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
               </div>
 
               <div className="glass-panel overflow-hidden border-white/5 hover:border-cyan-400/30 transition-all duration-700 hover:translate-x-2"

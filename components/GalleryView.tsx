@@ -60,7 +60,11 @@ const GalleryView: React.FC<GalleryViewProps> = ({ memories, onSelectMemory, lan
                     </span>
                   </div>
                   <div className="flex items-center gap-4 text-[9px] font-medium uppercase tracking-widest text-zinc-400">
+<<<<<<< HEAD
                     <i className="fa-solid fa-crosshairs text-cyan-400 animate-pulse"></i>
+=======
+                    <i className="fa-solid fa-crosshairs text-cyan-400"></i> {/* Removed animate-pulse */}
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
                     {memory.location.name}
                   </div>
                 </div>

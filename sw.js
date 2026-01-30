@@ -3,6 +3,7 @@ const CACHE_NAME = 'chrono-cyber-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
+<<<<<<< HEAD
   '/dist/output.css',
   '/vendor/topojson-client.min.js',
   '/vendor/fontawesome/css/all.min.css',
@@ -13,6 +14,14 @@ const ASSETS_TO_CACHE = [
 ];
 
 
+=======
+  'https://cdn.tailwindcss.com',
+  'https://unpkg.com/topojson-client@3',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+  'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;700&display=swap'
+];
+
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {

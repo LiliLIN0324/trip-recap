@@ -6,8 +6,13 @@ export const INITIAL_MEMORIES: Memory[] = [
     id: '1',
     title: 'Forbidden City Snow',
     images: [
+<<<<<<< HEAD
       'https://images.unsplash.com/photo-1552554706-73b162698b78?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1599571234909-29ed5d13c1d6?auto=format&fit=crop&q=80&w=800'
+=======
+      'https://images.unsplash.com/photo-1599571234909-29ed5d13c1d6?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1543169107-1065719cb372?auto=format&fit=crop&q=80&w=800'
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
     ],
     date: '2025-01-05',
     location: { lat: 39.9163, lng: 116.3972, name: 'Beijing, Forbidden City' },
@@ -18,8 +23,13 @@ export const INITIAL_MEMORIES: Memory[] = [
     id: '2',
     title: 'Bund Sleepless Night',
     images: [
+<<<<<<< HEAD
       'https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1548919973-5dea585937d5?auto=format&fit=crop&q=80&w=800'
+=======
+      'https://images.unsplash.com/photo-1505166037060-d6cd0d935496?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1620986967732-c64547926e27?auto=format&fit=crop&q=80&w=800'
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
     ],
     date: '2025-02-14',
     location: { lat: 31.2400, lng: 121.4900, name: 'Shanghai, The Bund' },
@@ -30,7 +40,11 @@ export const INITIAL_MEMORIES: Memory[] = [
     id: '3',
     title: 'Chengdu Hotpot Night',
     images: [
+<<<<<<< HEAD
       'https://images.unsplash.com/photo-1542367592-8849eb950fd8?auto=format&fit=crop&q=80&w=800',
+=======
+      'https://images.unsplash.com/photo-1565261318041-3b567a21397e?auto=format&fit=crop&q=80&w=800',
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
       'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&q=80&w=800'
     ],
     date: '2025-03-10',
@@ -40,15 +54,169 @@ export const INITIAL_MEMORIES: Memory[] = [
   },
   {
     id: '4',
+<<<<<<< HEAD
     title: 'Broken Bridge Snow',
     images: [
       'https://images.unsplash.com/photo-1596434300655-e48d3ff3dd5e?auto=format&fit=crop&q=80&w=800'
+=======
+    title: 'West Lake Rain',
+    images: [
+      'https://images.unsplash.com/photo-1582650700501-1b827e8a93a0?auto=format&fit=crop&q=80&w=800'
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
     ],
     date: '2025-03-20',
     location: { lat: 30.2596, lng: 120.1534, name: 'Hangzhou, West Lake' },
     activityType: 'Nature',
     description: 'The water is shimmering and the weather is good, and the mountains are misty and the rain is strange.',
+<<<<<<< HEAD
   }
+=======
+  },
+  {
+    id: '5',
+    title: 'London Eye Sunset',
+    images: ['https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-04-15',
+    location: { lat: 51.5033, lng: -0.1196, name: 'London, UK' },
+    activityType: 'Travel',
+    description: 'Stunning views of the city as the sun dipped below the horizon from the London Eye.',
+  },
+  {
+    id: '6',
+    title: 'New York City Lights',
+    images: ['https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-05-01',
+    location: { lat: 40.7128, lng: -74.0060, name: 'New York, USA' },
+    activityType: 'Social',
+    description: 'The vibrant energy of Times Square, truly the city that never sleeps.',
+  },
+  {
+    id: '7',
+    title: 'Seoul Street Food',
+    images: ['https://images.unsplash.com/photo-1598118020581-689369d7a227?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-06-08',
+    location: { lat: 37.5665, lng: 126.9780, name: 'Seoul, South Korea' },
+    activityType: 'Food',
+    description: 'Indulging in delicious Korean street food, a culinary adventure for the taste buds.',
+  },
+  {
+    id: '8',
+    title: 'Tokyo Cherry Blossoms',
+    images: ['https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-04-01', 
+    location: { lat: 35.6895, lng: 139.6917, name: 'Tokyo, Japan' },
+    activityType: 'Nature',
+    description: 'A breathtaking sight of cherry blossoms in full bloom, a truly magical experience.',
+  },
+  {
+    id: '9',
+    title: 'Sydney Opera House',
+    images: ['https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-07-20',
+    location: { lat: -33.8688, lng: 151.2093, name: 'Sydney, Australia' },
+    activityType: 'Leisure',
+    description: 'Enjoyed a relaxing afternoon by the iconic Sydney Opera House, soaking in the harbor views.',
+  },
+  {
+    id: '10',
+    title: 'Cape Town View',
+    images: ['https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-08-12',
+    location: { lat: -33.9249, lng: 18.4241, name: 'Cape Town, South Africa' },
+    activityType: 'Sport',
+    description: 'Challenging hike up Table Mountain, rewarded with panoramic views of Cape Town.',
+  },
+  {
+    id: '11',
+    title: 'Rio Vibes',
+    images: ['https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-09-05',
+    location: { lat: -22.9068, lng: -43.1729, name: 'Rio de Janeiro, Brazil' },
+    activityType: 'Social',
+    description: 'Experiencing the vibrant and energetic atmosphere of Rio.',
+  },
+  {
+    id: '12',
+    title: 'Paris Eiffel Tower',
+    images: ['https://images.unsplash.com/photo-1502602898669-ee3e2300570b?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-10-10',
+    location: { lat: 48.8584, lng: 2.2945, name: 'Paris, France' },
+    activityType: 'Travel',
+    description: 'A romantic evening under the sparkling Eiffel Tower, a truly unforgettable experience.',
+  },
+  {
+    id: '13',
+    title: 'Rome Colosseum',
+    images: ['https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-11-01',
+    location: { lat: 41.8902, lng: 12.4922, name: 'Rome, Italy' },
+    activityType: 'Travel',
+    description: 'Stepping back in time at the ancient Colosseum, marveling at its grandeur.',
+  },
+  {
+    id: '14',
+    title: 'Berlin Gate',
+    images: ['https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-11-20',
+    location: { lat: 52.5163, lng: 13.3777, name: 'Berlin, Germany' },
+    activityType: 'Travel',
+    description: 'Exploring the historical Brandenburg Gate, a symbol of German reunification.',
+  },
+  {
+    id: '15',
+    title: 'Dubai Desert',
+    images: ['https://images.unsplash.com/photo-1512453979798-5ea904ac6605?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-12-05',
+    location: { lat: 25.2048, lng: 55.2708, name: 'Dubai, UAE' },
+    activityType: 'Leisure',
+    description: 'An exhilarating desert safari, experiencing the vast beauty of the Arabian desert.',
+  },
+  {
+    id: '16',
+    title: 'Pyramids of Giza',
+    images: ['https://images.unsplash.com/photo-1539650116455-251c93c58764?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-12-20',
+    location: { lat: 29.9792, lng: 31.1342, name: 'Cairo, Egypt' },
+    activityType: 'Travel',
+    description: 'Witnessing the majestic Pyramids of Giza, an awe-inspiring ancient wonder.',
+  },
+  {
+    id: '17',
+    title: 'Iceland Aurora',
+    images: ['https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-02-28',
+    location: { lat: 64.9631, lng: -19.0208, name: 'Reykjavik, Iceland' },
+    activityType: 'Nature',
+    description: 'Chasing the magical Northern Lights in the winter wonderland of Iceland.',
+  },
+  {
+    id: '18',
+    title: 'Machu Picchu',
+    images: ['https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-07-01',
+    location: { lat: -13.1631, lng: -72.5450, name: 'Machu Picchu, Peru' },
+    activityType: 'Travel',
+    description: 'A breathtaking sunrise over the ancient Inca city of Machu Picchu.',
+  },
+  {
+    id: '19',
+    title: 'Vancouver Mountains',
+    images: ['https://images.unsplash.com/photo-1560275619-4662e36fa65c?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-01-15',
+    location: { lat: 49.2827, lng: -123.1207, name: 'Vancouver, Canada' },
+    activityType: 'Sport',
+    description: 'Thrilling ski adventure on the snowy slopes near Vancouver.',
+  },
+  {
+    id: '20',
+    title: 'Coral Reef Dive',
+    images: ['https://images.unsplash.com/photo-1682687220509-61b8a906ca19?auto=format&fit=crop&q=80&w=800'],
+    date: '2025-08-01',
+    location: { lat: -18.2871, lng: 147.6992, name: 'Great Barrier Reef, Australia' },
+    activityType: 'Nature',
+    description: 'Diving into the vibrant underwater world of the Great Barrier Reef.',
+  },
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
 ];
 
 export const ACTIVITY_COLORS: Record<string, string> = {
@@ -65,8 +233,13 @@ export const TRANSLATIONS = {
   en: {
     capacity: "CAPACITY",
     nodes: "NODES",
+<<<<<<< HEAD
     recap: "RECAP",
     decoding: "DECODING",
+=======
+    recap: "ANNUAL RECAP",
+    decoding: "DECODING JOURNEY",
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
     map: "MAP",
     history: "HISTORY",
     gallery: "GALLERY",
@@ -76,9 +249,15 @@ export const TRANSLATIONS = {
     protocol: "Archive Initiated // 2025 Odyssey",
     decodeScroll: "DECODE_SCROLL",
     totalMemories: "Total Memories",
+<<<<<<< HEAD
     countries: "Countries",
     peakMonth: "Peak Month",
     topType: "Top Type",
+=======
+    countries: "Cities Explored",
+    peakMonth: "Peak Month",
+    topType: "Core Activity",
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
     activityInsights: "Activity Insights",
     activityDistribution: "Activity Distribution",
     memoriesPerMonth: "Memories per Month",
@@ -98,13 +277,25 @@ export const TRANSLATIONS = {
     analyzing: "ANALYZING...",
     add_files: "ADD_FILES",
     upload_moment: "Upload Moment",
+<<<<<<< HEAD
     lang: "EN"
+=======
+    lang: "EN",
+    summaryTitle: "YEAR IN MOTION",
+    summarySubtitle: "Your 2025 Odyssey Concluded",
+    backToGlobe: "RETURN TO CORE",
+    generateNarrative: "GENERATE POETIC SUMMARY"
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
   },
   zh: {
     capacity: "记忆总数",
     nodes: "足迹点",
     recap: "年度回顾",
+<<<<<<< HEAD
     decoding: "正在解码",
+=======
+    decoding: "足迹解码中",
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
     map: "地图",
     history: "时间轴",
     gallery: "图库",
@@ -136,6 +327,16 @@ export const TRANSLATIONS = {
     analyzing: "分析中...",
     add_files: "添加文件",
     upload_moment: "上传瞬间",
+<<<<<<< HEAD
     lang: "中文"
   }
 };
+=======
+    lang: "中文",
+    summaryTitle: "年度光影",
+    summarySubtitle: "2025 征途已汇编",
+    backToGlobe: "回到核心",
+    generateNarrative: "生成 AI 年度感言"
+  }
+};
+>>>>>>> b96273f375fb08b6bbc3a39121a3307a02eec152
