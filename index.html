@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2092/2092215.png">
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2092/2092215.png">
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./dist/output.css">
   <script src="https://unpkg.com/topojson-client@3"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -56,13 +56,16 @@
     .neo-gradient {
       background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-cyan) 100%);
     }
-
+    
     .neo-text-gradient {
       background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-cyan) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;  /* Chrome / Safari */
+      -webkit-text-fill-color: transparent; /* Chrome / Safari */
+      background-clip: text;          /* 标准属性 */
+      color: transparent;             /* 标准属性 */
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
     }
+
 
     .scanlines::before {
       content: " ";

@@ -8,7 +8,7 @@ import StatsView from './StatsView';
 import GalleryView from './GalleryView';
 import MemoryModal from '../MemoryModal';
 import MemoryForm from './MemoryForm';
-import SummaryScreen from './SummaryScreen';
+import SummaryScreen from './summaryScreen';
 
 const STORAGE_KEY = 'CHRONOS_ARCHIVE_V1';
 

@@ -3,11 +3,15 @@ const CACHE_NAME = 'chrono-cyber-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  'https://cdn.tailwindcss.com',
-  'https://unpkg.com/topojson-client@3',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;700&display=swap'
+  '/dist/output.css',
+  '/vendor/topojson-client.min.js',
+  '/vendor/fontawesome/css/all.min.css',
+  '/vendor/fontawesome/webfonts/fa-solid-900.woff2',
+  '/vendor/fontawesome/webfonts/fa-solid-900.woff',
+  '/fonts/Orbitron-Regular.woff2',
+  '/fonts/SpaceGrotesk-Regular.woff2'
 ];
+
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
